@@ -94,6 +94,7 @@ export default function Home() {
     );
     if (animal) {
       setHint(animal.hint);
+      setScore((prev) => prev - 250);
     } else {
       setHint("No hint available for this word.");
     }
