@@ -26,10 +26,6 @@ export default function Home() {
   };
 
   const handleSubmit = () => {
-    if (guesses.some((guess) => guess.trim() === "")) {
-      alert("Please fill all fields");
-      return;
-    }
 
     const currentValidation = guesses.map(
       (letter, index) => letter.toLowerCase() === word[index]?.toLowerCase()
