@@ -135,6 +135,7 @@ export default function Home() {
               type="text"
               maxLength={1}
               value={guess}
+              disabled={score >= 3000}
               onChange={(e) => handleInputChange(index, e.target.value)}
               className={` bg-white border-2 rounded-md p-2 w-full max-w-10 text-center text-xl font-bold ${
                 validationResults[index] ? "border-green-500" : guessCounter > 0 ? "border-red-500" : "border-gray-300"
