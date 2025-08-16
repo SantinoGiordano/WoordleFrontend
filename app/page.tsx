@@ -159,6 +159,7 @@ export default function Home() {
           Submit Guess
         </button>
         <button
+          disabled={score >= 3000}
           onClick={handleHintReveal}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
         >
@@ -167,7 +168,9 @@ export default function Home() {
 
         {hint && (
           <div className="w-full max-w-md mt-4 bg-white/80 border border-blue-200 rounded-lg shadow-md p-4 flex items-center justify-center">
-            <p className="animate-pulse text-gray-700 font-medium text-center">{hint}</p>
+            <p className="animate-pulse text-gray-700 font-medium text-center">
+              {hint}
+            </p>
           </div>
         )}
       </div>
