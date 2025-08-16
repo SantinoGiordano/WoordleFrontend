@@ -41,19 +41,17 @@ export default function Home() {
 
     incrementScore(currentValidation);
 
-    // ✅ If correct, move to the next word
     if (currentValidation.every((isCorrect) => isCorrect)) {
       const currentIndex = randomWordList.indexOf(word);
 
-      // Get next word (or loop back to first)
       const nextIndex = (currentIndex + 1) % randomWordList.length;
       const nextWord = randomWordList[nextIndex];
 
       setTimeout(() => {
         setWord(nextWord);
-        setGuesses(["", "", "", "", ""]); // reset guesses
-        setValidationResults(Array(5).fill(false)); // reset validation
-      }, 500); // small delay so user sees the green highlight
+        setGuesses(["", "", "", "", ""]);
+        setValidationResults(Array(5).fill(false));
+      }, 500);
     } else {
       const firstIncorrectIndex = currentValidation.findIndex(
         (isCorrect) => !isCorrect
@@ -95,14 +93,11 @@ export default function Home() {
       .then((animalNames) => {
         setItems(animalNames);
         if (animalNames.length > 0) {
-          // Create array of just the names
           const names = animalNames.map((animal: Animal) =>
             animal.name.toLowerCase()
           );
-          // Shuffle the array
           const shuffledNames = shuffleArray(names);
           setRandomWordList(shuffledNames);
-          // Set the first word as the word to guess
           setWord(shuffledNames[0]);
         }
       });
@@ -156,7 +151,6 @@ export default function Home() {
       {randomWordList.length > 0 && (
         <div className="p-4">
           <p className="text-sm text-gray-500">Word to guess: {word}</p>
-          {/* <p className="text-sm text-gray-500">Random word list: {randomWordList.join(", ")}</p> */}
         </div>
       )}
     </>
