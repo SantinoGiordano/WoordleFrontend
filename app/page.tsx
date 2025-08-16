@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [word, setWord] = useState("");
+  const [hint, setHint] = useState("");
   const [guesses, setGuesses] = useState<string[]>(["", "", "", "", ""]);
   const [guessCounter, setGuessCounter] = useState(0);
   const [items, setItems] = useState<Animal[]>([]);
@@ -26,7 +27,6 @@ export default function Home() {
   };
 
   const handleSubmit = () => {
-
     const currentValidation = guesses.map(
       (letter, index) => letter.toLowerCase() === word[index]?.toLowerCase()
     );
@@ -50,6 +50,7 @@ export default function Home() {
       setTimeout(() => {
         setWord(nextWord);
         setGuesses(["", "", "", "", ""]);
+        setHint("");
         setValidationResults(Array(5).fill(false));
       }, 500);
     } else {
@@ -85,6 +86,17 @@ export default function Home() {
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
+  };
+
+  const handleHintReveal = () => {
+    const animal = items.find(
+      (animal) => animal.name.toLowerCase() === word.toLowerCase()
+    );
+    if (animal) {
+      setHint(animal.hint);
+    } else {
+      setHint("No hint available for this word.");
+    }
   };
 
   useEffect(() => {
@@ -146,6 +158,18 @@ export default function Home() {
         >
           Submit Guess
         </button>
+        <button
+          onClick={handleHintReveal}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+        >
+          Reveal Hint
+        </button>
+
+        {hint && (
+          <div className="w-full max-w-md mt-4 bg-white/80 border border-blue-200 rounded-lg shadow-md p-4 flex items-center justify-center">
+            <p className="animate-pulse text-gray-700 font-medium text-center">{hint}</p>
+          </div>
+        )}
       </div>
 
       {randomWordList.length > 0 && (
