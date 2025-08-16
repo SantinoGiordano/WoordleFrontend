@@ -17,7 +17,7 @@ export default function Home() {
 
   const incrementScore = (currentValidation: boolean[]) => {
   if (currentValidation.every(isCorrect => isCorrect)) {
-    setScore((prev) => prev + 100);
+    setScore((prev) => prev + 1000);
   } else {
     setScore((prev) => prev - 50);
   }
@@ -34,10 +34,6 @@ export default function Home() {
     letter.toLowerCase() === word[index]?.toLowerCase()
   );
 
-  console.log("Guesses:", guesses);
-  console.log("Word:", word);
-  console.log("Validation:", currentValidation);
-
   setValidationResults(currentValidation);
 
   setGuesses(prevGuesses =>
@@ -48,14 +44,30 @@ export default function Home() {
 
   guessCounterFunc();
 
-  const firstIncorrectIndex = currentValidation.findIndex(isCorrect => !isCorrect);
-  if (firstIncorrectIndex >= 0) {
-    const input = document.getElementById(`input-${firstIncorrectIndex}`);
-    if (input) input.focus();
-  }
+  incrementScore(currentValidation);
 
-  incrementScore(currentValidation); 
+  // ✅ If correct, move to the next word
+  if (currentValidation.every(isCorrect => isCorrect)) {
+    const currentIndex = randomWordList.indexOf(word);
+
+    // Get next word (or loop back to first)
+    const nextIndex = (currentIndex + 1) % randomWordList.length;
+    const nextWord = randomWordList[nextIndex];
+
+    setTimeout(() => {
+      setWord(nextWord);
+      setGuesses(["", "", "", "", ""]); // reset guesses
+      setValidationResults(Array(5).fill(false)); // reset validation
+    }, 500); // small delay so user sees the green highlight
+  } else {
+    const firstIncorrectIndex = currentValidation.findIndex(isCorrect => !isCorrect);
+    if (firstIncorrectIndex >= 0) {
+      const input = document.getElementById(`input-${firstIncorrectIndex}`);
+      if (input) input.focus();
+    }
+  }
 };
+
 
 
   const handleInputChange = (index: number, value: string) => {
@@ -101,7 +113,19 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center min-h-screen p-8 pb-20 gap-8 sm:p-20">
+      <div className="flex flex-col justify-center items-center min-h-screen p-8 pb-20 gap-8 sm:p-20 bg-amber-100">
+      <div className="flex flex-col items-center font-bold text-3xl w-full max-w-xs">
+  <h1 className="mb-2 text-2xl font-semibold text-gray-800">Score</h1>
+  <div className="relative w-full h-6 rounded-full bg-black shadow-lg mb-2">
+    <div
+      className="absolute top-0 left-0 h-6 rounded-full bg-green-500 transition-all duration-500"
+      style={{ width: `${Math.min((score / 3000) * 100, 100)}%` }}
+    ></div>
+    <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-base drop-shadow">
+      {score} / 3000
+    </span>
+  </div>
+</div>
         <span className="mb-4 font-sans text-lg">Guess Here</span>
         <div className="flex gap-4 w-full max-w-md justify-center">
           {guesses.map((guess, index) => (
@@ -112,7 +136,7 @@ export default function Home() {
               maxLength={1}
               value={guess}
               onChange={(e) => handleInputChange(index, e.target.value)}
-              className={`border-2 rounded-md p-2 w-full max-w-10 text-center text-xl font-bold ${
+              className={` bg-white border-2 rounded-md p-2 w-full max-w-10 text-center text-xl font-bold ${
                 validationResults[index] ? "border-green-500" : guessCounter > 0 ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -121,6 +145,7 @@ export default function Home() {
         <button
           onClick={handleSubmit}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          disabled={score >= 3000}
         >
           Submit Guess
         </button>
@@ -129,8 +154,7 @@ export default function Home() {
       {randomWordList.length > 0 && (
         <div className="p-4">
           <p className="text-sm text-gray-500">Word to guess: {word}</p>
-          <p className="text-sm text-gray-500">Random word list: {randomWordList.join(", ")}</p>
-          <p className="text-sm text-gray-500">Score: {score}</p>
+          {/* <p className="text-sm text-gray-500">Random word list: {randomWordList.join(", ")}</p> */}
         </div>
       )}
     </>
