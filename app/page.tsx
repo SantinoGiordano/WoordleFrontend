@@ -106,7 +106,7 @@ export default function Home() {
       .then((animalNames) => {
         setItems(animalNames);
         if (animalNames.length > 0) {
-          const names = animalNames.map((animal: Animal) =>
+          const names = animalNames.map((animal: any) =>
             animal.name.toLowerCase()
           );
           const shuffledNames = shuffleArray(names);
