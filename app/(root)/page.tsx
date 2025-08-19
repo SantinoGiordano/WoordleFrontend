@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <>
@@ -6,15 +8,24 @@ export default function Home() {
           Game Modes
         </h1>
         <div className="flex flex-col gap-6 w-full max-w-xs">
-          <button className="bg-amber-100  text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200">
+          <Link
+            className="bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
+            href={"/mainGame"}
+          >
             Play Classic
-          </button>
-          <button className="bg-amber-100  text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200">
+          </Link>
+          <Link
+            href={"/mainGame"}
+            className="bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
+          >
             Hard Mode
-          </button>
-          <button className="bg-amber-100 text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200">
+          </Link>
+          <Link
+            href={"/mainGame"}
+            className="bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
+          >
             Speed Run
-          </button>
+          </Link>
         </div>
       </div>
     </>
