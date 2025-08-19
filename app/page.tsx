@@ -14,6 +14,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [randomWordList, setRandomWordList] = useState<string[]>([]);
   const [hintUsed, setHintUsed] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const guessCounterFunc = () => {
     setGuessCounter((prev) => prev + 1);
@@ -28,6 +29,11 @@ export default function Home() {
   };
 
   const handleSubmit = () => {
+    setIsDisabled(true); // Disable button immediately
+    setTimeout(() => {
+      setIsDisabled(false); // Re-enable after 1 second
+    }, 1000);
+
     const currentValidation = guesses.map(
       (letter, index) => letter.toLowerCase() === word[index]?.toLowerCase()
     );
@@ -53,7 +59,7 @@ export default function Home() {
         setGuesses(["", "", "", "", ""]);
         setHint("");
         setValidationResults(Array(5).fill(false));
-        setHintUsed(false); // Reset hint usage for the next word
+        setHintUsed(false);
       }, 500);
     } else {
       const firstIncorrectIndex = currentValidation.findIndex(
@@ -159,7 +165,7 @@ export default function Home() {
         <button
           onClick={handleSubmit}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-          disabled={score >= 3000}
+          disabled={score >= 3000 || isDisabled}
         >
           Submit Guess
         </button>
