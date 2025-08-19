@@ -13,6 +13,7 @@ export default function Home() {
   );
   const [score, setScore] = useState(0);
   const [randomWordList, setRandomWordList] = useState<string[]>([]);
+  const [hintUsed, setHintUsed] = useState(false);
 
   const guessCounterFunc = () => {
     setGuessCounter((prev) => prev + 1);
@@ -52,6 +53,7 @@ export default function Home() {
         setGuesses(["", "", "", "", ""]);
         setHint("");
         setValidationResults(Array(5).fill(false));
+        setHintUsed(false); // Reset hint usage for the next word
       }, 500);
     } else {
       const firstIncorrectIndex = currentValidation.findIndex(
@@ -95,8 +97,10 @@ export default function Home() {
     if (animal) {
       setHint(animal.hint);
       setScore((prev) => prev - 250);
+      setHintUsed(true); // Disable after use
     } else {
       setHint("No hint available for this word.");
+      setHintUsed(true); // Disable after use
     }
   };
 
@@ -160,7 +164,7 @@ export default function Home() {
           Submit Guess
         </button>
         <button
-          disabled={score >= 3000}
+          disabled={score >= 3000 || hintUsed} // Disable if hint is used
           onClick={handleHintReveal}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
         >
