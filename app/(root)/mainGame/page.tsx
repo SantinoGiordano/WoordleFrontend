@@ -1,6 +1,7 @@
 "use client";
 import { Animal } from "@/types/types";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -128,6 +129,26 @@ export default function Home() {
 
   return (
     <>
+      <div className="fixed top-6 left-6 z-50">
+        <Link href="/" aria-label="Back to Home">
+          <button className="w-14 h-14 rounded-full bg-black flex items-center justify-center shadow-lg hover:bg-gray-800 transition-colors">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="white"
+              className="w-8 h-8"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+        </Link>
+      </div>
       <div className="flex flex-col justify-center items-center min-h-screen p-8 pb-20 gap-8 sm:p-20 bg-amber-100">
         <div className="flex flex-col items-center font-bold text-3xl w-full max-w-xs">
           <h1 className="mb-2 text-2xl font-semibold text-gray-800">Score</h1>
