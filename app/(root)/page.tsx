@@ -9,20 +9,23 @@ export default function Home() {
         </h1>
         <div className="flex flex-col gap-6 w-full max-w-xs">
           <Link
-            className="bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
+            data-tip="Noraml Game with hints, no time limit, and goal of 3000 points"
+            className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
             href={"/mainGame"}
           >
             Play Classic
           </Link>
           <Link
+            data-tip="Noraml Game with hints, no time limit, and goal of 3000 points"
             href={"/mainGame"}
-            className="bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
+            className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
             Hard Mode
           </Link>
           <Link
+            data-tip="Noraml Game with hints, no time limit, and goal of 3000 points"
             href={"/mainGame"}
-            className="bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
+            className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
             Speed Run
           </Link>
