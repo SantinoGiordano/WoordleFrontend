@@ -24,14 +24,14 @@ export default function Home() {
           </Link>
           <Link 
             data-tip="Normal gameplay with hints, a time limit of 3 min, try to answer as many as you can"
-            href={"/mainGame"}
+            href={"/speedRun"}
             className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
             Speed Run
           </Link>
           <Link
             data-tip="Learn the game with easy questions and helpful hints"
-            href={"/speedRun"}
+            href={"/tutorial"}
             className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
             Tutorial 
