@@ -78,7 +78,8 @@ export default function Home() {
     }
   };
 
-  const shuffleArray = (array: Animal[]) => {
+  // FIX: shuffleArray should take string[]
+  const shuffleArray = (array: string[]) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -139,7 +140,7 @@ export default function Home() {
       {/* Score + Timer */}
       <div className="card w-full max-w-sm shadow-xl bg-white/90 border border-amber-300 mb-8">
         <div className="card-body items-center">
-          <TimerProgress progress={0} />
+          <TimerProgress/>
           <h2 className="text-lg font-semibold text-gray-700 mt-4">Score</h2>
           <div className="relative w-full h-6 rounded-full bg-gray-200 overflow-hidden shadow-inner">
             <div

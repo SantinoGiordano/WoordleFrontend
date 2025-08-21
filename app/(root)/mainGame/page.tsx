@@ -77,7 +77,7 @@ export default function Home() {
     }
   };
 
-  const shuffleArray = (array: Animal[]) => {
+  const shuffleArray = (array: string[]) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -105,9 +105,7 @@ export default function Home() {
       .then((animalNames) => {
         setItems(animalNames);
         if (animalNames.length > 0) {
-          const names = animalNames.map((animal: Animal) =>
-            animal.name.toLowerCase()
-          );
+          const names = animalNames.map((animal: Animal) => animal.name.toLowerCase());
           const shuffledNames = shuffleArray(names);
           setRandomWordList(shuffledNames);
           setWord(shuffledNames[0]);
