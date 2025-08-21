@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
   const [word, setWord] = useState("");
   const [hint, setHint] = useState("");
-  const [hintLimit, setHintLimit] = useState(3);
+  const [hintLimit, setHintLimit] = useState(5);
   const [guesses, setGuesses] = useState<string[]>(["", "", "", "", ""]);
   const [guessCounter, setGuessCounter] = useState(0);
   const [items, setItems] = useState<Animal[]>([]);
@@ -192,7 +192,7 @@ export default function Home() {
           Submit Guess
         </button>
         <button
-          disabled={score >= 5000 || hintUsed} // Disable if hint is used
+          disabled={score >= 5000 || hintUsed || hintLimit <= 0} 
           onClick={handleHintReveal}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
         >
