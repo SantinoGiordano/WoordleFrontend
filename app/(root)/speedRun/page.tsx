@@ -2,6 +2,7 @@
 import { Animal } from "@/types/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import TimerProgress from "@/app/componet/timer";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -151,6 +152,7 @@ export default function Home() {
       </div>
       <div className="flex flex-col justify-center items-center min-h-screen p-8 pb-20 gap-8 sm:p-20 bg-amber-100">
         <div className="flex flex-col items-center font-bold text-3xl w-full max-w-xs">
+          <TimerProgress />
           <h1 className="mb-2 text-2xl font-semibold text-gray-800">Score</h1>
           <div className="relative w-full h-6 rounded-full bg-black shadow-lg mb-2">
             <div
@@ -197,7 +199,6 @@ export default function Home() {
         >
           Reveal Hint
         </button>
-
         {hint && (
           <div className="w-full max-w-md mt-4 bg-white/80 border border-blue-200 rounded-lg shadow-md p-4 flex items-center justify-center">
             <p className="animate-pulse text-gray-700 font-medium text-center">
