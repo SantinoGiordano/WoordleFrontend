@@ -155,10 +155,10 @@ export default function Home() {
           <div className="relative w-full h-6 rounded-full bg-black shadow-lg mb-2">
             <div
               className="absolute top-0 left-0 h-6 rounded-full bg-green-500 transition-all duration-500"
-              style={{ width: `${Math.min((score / 3000) * 100, 100)}%` }}
+              style={{ width: `${Math.min((score / 5000) * 100, 100)}%` }}
             ></div>
             <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-base drop-shadow">
-              {score} / 3000
+              {score} / 5000
             </span>
           </div>
         </div>
@@ -171,7 +171,7 @@ export default function Home() {
               type="text"
               maxLength={1}
               value={guess}
-              disabled={score >= 3000}
+              disabled={score >= 5000}
               onChange={(e) => handleInputChange(index, e.target.value)}
               className={` bg-white border-2 rounded-md p-2 w-full max-w-10 text-center text-xl font-bold ${
                 validationResults[index]
@@ -186,12 +186,12 @@ export default function Home() {
         <button
           onClick={handleSubmit}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-          disabled={score >= 3000 || isDisabled}
+          disabled={score >= 5000 || isDisabled}
         >
           Submit Guess
         </button>
         <button
-          disabled={score >= 3000 || hintUsed} // Disable if hint is used
+          disabled={score >= 5000 || hintUsed} // Disable if hint is used
           onClick={handleHintReveal}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
         >
