@@ -6,6 +6,7 @@ import Link from "next/link";
 export default function Home() {
   const [word, setWord] = useState("");
   const [hint, setHint] = useState("");
+  const [hintLimit, setHintLimit] = useState(3);
   const [guesses, setGuesses] = useState<string[]>(["", "", "", "", ""]);
   const [guessCounter, setGuessCounter] = useState(0);
   const [items, setItems] = useState<Animal[]>([]);
