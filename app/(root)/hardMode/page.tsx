@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
   const [word, setWord] = useState("");
   const [hint, setHint] = useState("");
-  const [hintLimit, setHintLimit] = useState(5);
+  const [hintLimit, setHintLimit] = useState(5); // Total hints for the whole game
   const [guesses, setGuesses] = useState<string[]>(["", "", "", "", ""]);
   const [guessCounter, setGuessCounter] = useState(0);
   const [items, setItems] = useState<Animal[]>([]);
@@ -61,7 +61,7 @@ export default function Home() {
         setGuesses(["", "", "", "", ""]);
         setHint("");
         setValidationResults(Array(5).fill(false));
-        setHintUsed(false);
+        setHintUsed(false); // Only disables hint for current word, not total
       }, 500);
     } else {
       const firstIncorrectIndex = currentValidation.findIndex(
@@ -89,6 +89,23 @@ export default function Home() {
     }
   };
 
+  // Only allow 5 hints for the whole game
+  const handleHintReveal = () => {
+    if (hintLimit > 0 && !hintUsed) {
+      const animal = items.find(
+        (animal) => animal.name.toLowerCase() === word.toLowerCase()
+      );
+      if (animal) {
+        setHint(animal.hint);
+        setScore((prev) => prev - 250);
+      } else {
+        setHint("No hint available for this word.");
+      }
+      setHintUsed(true);
+      setHintLimit((prev) => prev - 1); // Decrement total hints
+    }
+  };
+
   const shuffleArray = (array: Animal[]) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -96,20 +113,6 @@ export default function Home() {
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
-  };
-
-  const handleHintReveal = () => {
-    const animal = items.find(
-      (animal) => animal.name.toLowerCase() === word.toLowerCase()
-    );
-    if (animal) {
-      setHint(animal.hint);
-      setScore((prev) => prev - 250);
-      setHintUsed(true); // Disable after use
-    } else {
-      setHint("No hint available for this word.");
-      setHintUsed(true); // Disable after use
-    }
   };
 
   useEffect(() => {
@@ -192,12 +195,17 @@ export default function Home() {
           Submit Guess
         </button>
         <button
-          disabled={score >= 5000 || hintUsed || hintLimit <= 0} 
+          disabled={score >= 5000 || hintUsed || hintLimit <= 0}
           onClick={handleHintReveal}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
         >
           Reveal Hint
         </button>
+        <div>
+          <p className="text-gray-700">
+            Hints left: {hintLimit} / 5
+          </p>
+        </div>
 
         {hint && (
           <div className="w-full max-w-md mt-4 bg-white/80 border border-blue-200 rounded-lg shadow-md p-4 flex items-center justify-center">
