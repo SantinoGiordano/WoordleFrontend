@@ -16,14 +16,14 @@ export default function Home() {
             Play Classic
           </Link>
           <Link
-            data-tip="Normal gameplay with no hints, no time limit, and goal of 5000 points"
+            data-tip="Normal gameplay with limit hints, no time limit, and goal of 5000 points"
             href={"/hardMode"}
             className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
             Hard Mode
           </Link>
           <Link 
-            data-tip="Normal gameplay with limited hints, a time limit of 3 min, try to answer as many as you can"
+            data-tip="Normal gameplay with hints, a time limit of 3 min, try to answer as many as you can"
             href={"/mainGame"}
             className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
@@ -34,7 +34,7 @@ export default function Home() {
             href={"/speedRun"}
             className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
-            Tutorial
+            Tutorial 
           </Link>
         </div>
       </div>
