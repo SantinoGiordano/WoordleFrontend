@@ -1,9 +1,11 @@
-'use client';
+"use client";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
-  const [email, setEmail] = useState("");
+  const router = useRouter();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -12,15 +14,37 @@ export default function SignIn() {
     e.preventDefault();
     setIsLoading(true);
     setMessage("");
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      if (email === "test@example.com" && password === "password") {
-        setMessage("Signed in successfully!");
-      } else {
-        setMessage("Invalid email or password.");
+
+    try {
+      const res = await fetch("http://localhost:8080/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username, // ✅ backend expects this
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.status === 404) {
+        router.push("/register");
+        return;
       }
-    }, 1200);
+
+      if (!res.ok) {
+        setMessage(data.error || "Login failed");
+      } else {
+        setMessage("Signed in successfully!");
+        // Save username in localStorage
+        localStorage.setItem("username", data.username);
+        router.push("/homePage");
+      }
+    } catch (err) {
+      setMessage("Server error, please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -36,22 +60,24 @@ export default function SignIn() {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSignIn}>
           <div className="rounded-md shadow-sm -space-y-px">
+
             <div>
-              <label htmlFor="email" className="sr-only">
-                Email
+              <label htmlFor="username" className="sr-only">
+                Username
               </label>
               <input
-                id="email"
-                name="email"
-                type="email"
+                id="username"
+                name="username"
+                type="text"
                 required
                 className="relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 disabled={isLoading}
               />
             </div>
+
             <div>
               <label htmlFor="password" className="sr-only">
                 Password
@@ -69,6 +95,7 @@ export default function SignIn() {
               />
             </div>
           </div>
+
 
           <div>
             <button
@@ -122,6 +149,7 @@ export default function SignIn() {
             {message}
           </div>
         )}
+
 
         <div className="flex items-center justify-between">
           <div className="text-sm">
