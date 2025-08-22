@@ -22,7 +22,7 @@ export default function GaneModes() {
           >
             Hard Mode
           </Link>
-          <Link 
+          <Link
             data-tip="Normal gameplay with hints, a time limit of 3 min, try to answer as many as you can"
             href={"/speedRun"}
             className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
@@ -34,7 +34,14 @@ export default function GaneModes() {
             href={"/tutorial"}
             className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
-            Tutorial 
+            Tutorial
+          </Link>
+          <Link
+            data-tip="Check to see who's the best!"
+            href={"/leaderboards"}
+            className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
+          >
+            Leaderboards
           </Link>
         </div>
       </div>
