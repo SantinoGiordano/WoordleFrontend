@@ -3,3 +3,9 @@ export interface Animal {
   name: string;
   hint:string;
 }
+
+export interface User {
+  _id: number;
+  username: string;
+  score: number;
+}
