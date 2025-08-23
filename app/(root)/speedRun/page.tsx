@@ -17,6 +17,40 @@ export default function Home() {
   const [randomWordList, setRandomWordList] = useState<string[]>([]);
   const [hintUsed, setHintUsed] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [timerDone, setTimerDone] = useState(false); // NEW
+
+  // Custom TimerProgress with callback
+  function TimerProgressWithCallback({ onFinish }: { onFinish: () => void }) {
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+      const totalTime = 180;
+      let timeElapsed = 0;
+      const interval = setInterval(() => {
+        timeElapsed++;
+        const percent = Math.min((timeElapsed / totalTime) * 100, 100);
+        setProgress(percent);
+        if (timeElapsed >= totalTime) {
+          clearInterval(interval);
+          onFinish();
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }, [onFinish]);
+
+    return (
+      <div className="flex flex-col items-center gap-2 w-full max-w-xs">
+        <div
+          className="radial-progress"
+          style={{ ["--value" as any]: progress } as React.CSSProperties}
+          aria-valuenow={progress}
+          role="progressbar"
+        >
+          <span className="text-xs font-semibold">{Math.round(progress)}%</span>
+        </div>
+      </div>
+    );
+  }
 
   const guessCounterFunc = () => setGuessCounter((prev) => prev + 1);
 
@@ -78,7 +112,6 @@ export default function Home() {
     }
   };
 
-  // FIX: shuffleArray should take string[]
   const shuffleArray = (array: string[]) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -140,17 +173,11 @@ export default function Home() {
       {/* Score + Timer */}
       <div className="card w-full max-w-sm shadow-xl bg-white/90 border border-amber-300 mb-8">
         <div className="card-body items-center">
-          <TimerProgress/>
+          <TimerProgressWithCallback onFinish={() => setTimerDone(true)} />
           <h2 className="text-lg font-semibold text-gray-700 mt-4">Score</h2>
-          <div className="relative w-full h-6 rounded-full bg-gray-200 overflow-hidden shadow-inner">
-            <div
-              className="absolute top-0 left-0 h-full bg-green-500 transition-all duration-500"
-              style={{ width: `${Math.min((score / 3000) * 100, 100)}%` }}
-            ></div>
-            <span className="absolute inset-0 flex items-center justify-center text-gray-800 font-bold text-sm">
-              {score} / 3000
-            </span>
-          </div>
+          <span className="inset-0 flex items-center justify-center text-gray-800 font-bold text-sm">
+            {score}
+          </span>
         </div>
       </div>
 
@@ -164,7 +191,7 @@ export default function Home() {
             type="text"
             maxLength={1}
             value={guess}
-            disabled={score >= 3000}
+            disabled={timerDone}
             onChange={(e) => handleInputChange(i, e.target.value)}
             className={`input input-bordered w-12 h-12 text-center text-xl font-bold 
               ${
@@ -182,14 +209,14 @@ export default function Home() {
       <div className="flex gap-4">
         <button
           onClick={handleSubmit}
-          disabled={score >= 3000 || isDisabled}
+          disabled={isDisabled || timerDone}
           className="btn btn-primary px-6"
         >
           Submit Guess
         </button>
         <button
           onClick={handleHintReveal}
-          disabled={score >= 3000 || hintUsed}
+          disabled={hintUsed || timerDone}
           className="btn btn-accent px-6"
         >
           Reveal Hint
@@ -208,6 +235,15 @@ export default function Home() {
         <p className="absolute bottom-4 text-xs text-gray-400">
           Word to guess: {word}
         </p>
+      )}
+      {/* Timer finished message */}
+      {timerDone && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+            <h2 className="text-2xl font-bold text-red-600 mb-2">Time's Up!</h2>
+            <p className="text-lg text-gray-700">Your final score: <span className="font-bold">{score}</span></p>
+          </div>
+        </div>
       )}
     </div>
   );
