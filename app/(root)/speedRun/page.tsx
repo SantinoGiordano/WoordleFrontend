@@ -121,7 +121,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 to-amber-200 relative">
       {/* Back Button */}
       <div className="absolute top-6 left-6">
-        <Link href="/" aria-label="Back to Home">
+        <Link href="/homeaPage" aria-label="Back to Home">
           <button className="btn btn-circle btn-outline bg-white shadow hover:scale-110 transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
