@@ -2,6 +2,7 @@
 import { Animal } from "@/types/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import TimerProgress from "@/app/componet/timer";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -17,6 +18,22 @@ export default function Home() {
   const [hintUsed, setHintUsed] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [timerDone, setTimerDone] = useState(false); // NEW
+  const [timerProgress, setTimerProgress] = useState(0);
+
+  useEffect(() => {
+    const totalTime = 180; // 3 minutes
+    let timeElapsed = 0;
+    const interval = setInterval(() => {
+      timeElapsed++;
+      const percent = Math.min((timeElapsed / totalTime) * 100, 100);
+      setTimerProgress(percent);
+      if (timeElapsed >= totalTime) {
+        clearInterval(interval);
+        setTimerDone(true);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Custom TimerProgress with callback
   function TimerProgressWithCallback({ onFinish }: { onFinish: () => void }) {
@@ -151,13 +168,14 @@ export default function Home() {
   useEffect(() => {
     if (timerDone) {
       const userId = localStorage.getItem("userId");
+      console.log("Sending score update:", { userId, score }); // Add this
       if (userId) {
-        fetch(`http://localhost:8080/api/users/${userId}/score`, {
-          method: "PATCH",
+        fetch(`http://localhost:8080/api/score`, {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ score }),
+          body: JSON.stringify({ userId, score }),
         })
           .then((res) => res.json())
           .then((data) => {
@@ -167,6 +185,7 @@ export default function Home() {
       }
     }
   }, [timerDone, score]);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 to-amber-200 relative">
       <div className="absolute top-6 left-6">
@@ -192,7 +211,7 @@ export default function Home() {
 
       <div className="card w-full max-w-sm shadow-xl bg-white/90 border border-amber-300 mb-8">
         <div className="card-body items-center">
-          <TimerProgressWithCallback onFinish={() => setTimerDone(true)} />
+          <TimerProgress progress={timerProgress} />
           <h2 className="text-lg font-semibold text-gray-700 mt-4">Score</h2>
           <span className="inset-0 flex items-center justify-center text-gray-800 font-bold text-sm">
             {score}
