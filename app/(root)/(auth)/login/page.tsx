@@ -2,10 +2,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/app/store/userStore";
 
 export default function SignIn() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const { setUsername } = useUserStore(); // ✅ Zustand store
+
+  const [username, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -20,7 +23,7 @@ export default function SignIn() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username, // ✅ backend expects this
+          username,
           password,
         }),
       });
@@ -36,8 +39,8 @@ export default function SignIn() {
         setMessage(data.error || "Login failed");
       } else {
         setMessage("Signed in successfully!");
-        // Save username in localStorage
-        localStorage.setItem("username", data.username);
+        localStorage.setItem("userId", data.id || data._id); // Save user ID for later
+        setUsername(data.username); // Save username in Zustand
         router.push("/homePage");
       }
     } catch (err) {
@@ -73,7 +76,7 @@ export default function SignIn() {
                 className="relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setUsernameInput(e.target.value)}
                 disabled={isLoading}
               />
             </div>
