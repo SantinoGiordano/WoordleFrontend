@@ -2,7 +2,6 @@
 import { Animal } from "@/types/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import TimerProgress from "@/app/componet/timer";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -240,7 +239,7 @@ export default function Home() {
       {timerDone && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-            <h2 className="text-2xl font-bold text-red-600 mb-2">Time's Up!</h2>
+            <h2 className="text-2xl font-bold text-red-600 mb-2">Time&apos;s Up!</h2>
             <p className="text-lg text-gray-700">Your final score: <span className="font-bold">{score}</span></p>
           </div>
         </div>
