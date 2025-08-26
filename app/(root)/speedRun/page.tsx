@@ -71,16 +71,15 @@ export default function Home() {
 
     setValidationResults(currentValidation);
 
-    setGuesses((prev) =>
-      prev.map((g, i) => (currentValidation[i] ? g : ""))
-    );
+    setGuesses((prev) => prev.map((g, i) => (currentValidation[i] ? g : "")));
 
     guessCounterFunc();
     incrementScore(currentValidation);
 
     if (currentValidation.every((isCorrect) => isCorrect)) {
       const currentIndex = randomWordList.indexOf(word);
-      const nextWord = randomWordList[(currentIndex + 1) % randomWordList.length];
+      const nextWord =
+        randomWordList[(currentIndex + 1) % randomWordList.length];
 
       setTimeout(() => {
         setWord(nextWord);
@@ -149,9 +148,27 @@ export default function Home() {
       });
   }, []);
 
+  useEffect(() => {
+    if (timerDone) {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        fetch(`http://localhost:8080/api/users/${userId}/score`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ score }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Score updated:", data);
+          })
+          .catch((err) => console.error("Error updating score:", err));
+      }
+    }
+  }, [timerDone, score]);
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 to-amber-200 relative">
-      {/* Back Button */}
       <div className="absolute top-6 left-6">
         <Link href="/homePage" aria-label="Back to Home">
           <button className="btn btn-circle btn-outline bg-white shadow hover:scale-110 transition">
@@ -163,13 +180,16 @@ export default function Home() {
               strokeWidth={2}
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
         </Link>
       </div>
 
-      {/* Score + Timer */}
       <div className="card w-full max-w-sm shadow-xl bg-white/90 border border-amber-300 mb-8">
         <div className="card-body items-center">
           <TimerProgressWithCallback onFinish={() => setTimerDone(true)} />
@@ -180,8 +200,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Guess Inputs */}
-      <span className="mb-2 text-lg font-medium text-gray-700">Guess the Word</span>
+      <span className="mb-2 text-lg font-medium text-gray-700">
+        Guess the Word
+      </span>
       <div className="flex gap-3 mb-6">
         {guesses.map((guess, i) => (
           <input
@@ -204,7 +225,6 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Buttons */}
       <div className="flex gap-4">
         <button
           onClick={handleSubmit}
@@ -222,25 +242,26 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Hint */}
       {hint && (
         <div className="mt-6 w-full max-w-sm bg-white border border-blue-200 rounded-lg shadow-md p-4 text-center">
           <p className="animate-pulse text-gray-700 font-medium">{hint}</p>
         </div>
       )}
 
-      {/* Debug Word */}
       {randomWordList.length > 0 && (
         <p className="absolute bottom-4 text-xs text-gray-400">
           Word to guess: {word}
         </p>
       )}
-      {/* Timer finished message */}
       {timerDone && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-            <h2 className="text-2xl font-bold text-red-600 mb-2">Time&apos;s Up!</h2>
-            <p className="text-lg text-gray-700">Your final score: <span className="font-bold">{score}</span></p>
+            <h2 className="text-2xl font-bold text-red-600 mb-2">
+              Time&apos;s Up!
+            </h2>
+            <p className="text-lg text-gray-700">
+              Your final score: <span className="font-bold">{score}</span>
+            </p>
           </div>
         </div>
       )}
