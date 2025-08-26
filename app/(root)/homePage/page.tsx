@@ -1,9 +1,14 @@
-import Link from "next/link";
+'use client'
 
+import Link from "next/link";
+import { useUserStore } from "@/app/store/userStore";
 export default function GaneModes() {
+
+  const username = useUserStore((state) => state.username);
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-200 via-pink-200 to-blue-200 gap-8">
+        welcome to woordle {username}
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 drop-shadow-lg">
           Game Modes
         </h1>
