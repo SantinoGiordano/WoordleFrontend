@@ -1,11 +1,10 @@
 "use client";
-
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface UserState {
   username: string | null;
-  setUsername: (username: string | null) => void;
+  setUsername: (username: string) => void;
   clearUser: () => void;
 }
 
