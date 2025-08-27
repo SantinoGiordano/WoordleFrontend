@@ -17,11 +17,11 @@ export default function Home() {
   const [randomWordList, setRandomWordList] = useState<string[]>([]);
   const [hintUsed, setHintUsed] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [timerDone, setTimerDone] = useState(false); // NEW
+  const [timerDone, setTimerDone] = useState(false); 
   const [timerProgress, setTimerProgress] = useState(0);
 
   useEffect(() => {
-    const totalTime = 180; // 3 minutes
+    const totalTime = 180; 
     let timeElapsed = 0;
     const interval = setInterval(() => {
       timeElapsed++;
@@ -168,7 +168,7 @@ export default function Home() {
   useEffect(() => {
     if (timerDone) {
       const userId = localStorage.getItem("userId");
-      console.log("Sending score update:", { userId, score }); // Add this
+      console.log("Sending score update:", { userId, score });
       if (userId) {
         fetch(`http://localhost:8080/api/score`, {
           method: "POST",
