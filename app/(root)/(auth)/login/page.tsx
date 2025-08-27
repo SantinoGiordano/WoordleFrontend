@@ -6,9 +6,12 @@ import { useUserStore } from "@/app/store/userStore";
 
 export default function SignIn() {
   const router = useRouter();
-  const { setUsername } = useUserStore(); // ✅ Zustand store
 
-  const [username, setUsernameInput] = useState("");
+  // Zustand store
+  const { setUsername } = useUserStore();
+
+  // Local state for form input
+  const [usernameInput, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -23,7 +26,7 @@ export default function SignIn() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username,
+          username: usernameInput,
           password,
         }),
       });
@@ -39,8 +42,8 @@ export default function SignIn() {
         setMessage(data.error || "Login failed");
       } else {
         setMessage("Signed in successfully!");
-        localStorage.setItem("userId", data.id || data._id); // Save user ID for later
-        setUsername(data.username); // Save username in Zustand
+        localStorage.setItem("userId", data.id || data._id); // Save user ID
+        setUsername(data.username); // <-- Save globally in Zustand
         router.push("/homePage");
       }
     } catch (err) {
@@ -63,7 +66,6 @@ export default function SignIn() {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSignIn}>
           <div className="rounded-md shadow-sm -space-y-px">
-
             <div>
               <label htmlFor="username" className="sr-only">
                 Username
@@ -75,7 +77,7 @@ export default function SignIn() {
                 required
                 className="relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Username"
-                value={username}
+                value={usernameInput}
                 onChange={(e) => setUsernameInput(e.target.value)}
                 disabled={isLoading}
               />
@@ -99,15 +101,12 @@ export default function SignIn() {
             </div>
           </div>
 
-
           <div>
             <button
               type="submit"
               disabled={isLoading}
               className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                isLoading
-                  ? "bg-gray-400"
-                  : "bg-blue-600 hover:bg-blue-700"
+                isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors`}
             >
               {isLoading ? (
@@ -152,7 +151,6 @@ export default function SignIn() {
             {message}
           </div>
         )}
-
 
         <div className="flex items-center justify-between">
           <div className="text-sm">
