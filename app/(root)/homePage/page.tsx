@@ -1,15 +1,16 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { useUserStore } from "@/app/store/userStore";
 export default function GaneModes() {
-
   const username = useUserStore((state) => state.username);
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-200 via-pink-200 to-blue-200 gap-8">
         <div className="flex items-center gap-2 mt-4">
-          <span className="text-2xl font-bold text-blue-700 drop-shadow">Welcome to Woordle</span>
+          <span className="text-2xl font-bold text-blue-700 drop-shadow">
+            Welcome to Woordle
+          </span>
           {username && (
             <span className="px-4 py-2 rounded-full bg-white/80 text-pink-600 font-extrabold text-xl shadow border border-pink-300 ml-2">
               {username}
@@ -56,6 +57,12 @@ export default function GaneModes() {
             Leaderboards
           </Link>
         </div>
+        <Link
+          href="/"
+          className="bg-white mt-8 inline-block text-blue-700 font-semibold  hover:text-white hover:bg-blue-700 transition-colors px-6 py-2 rounded-full shadow-sm"
+        >
+          ← Back to Sign In
+        </Link>
       </div>
     </>
   );
