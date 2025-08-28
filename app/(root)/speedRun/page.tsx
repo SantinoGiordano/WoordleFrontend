@@ -3,6 +3,7 @@ import { Animal } from "@/types/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import TimerProgress from "@/app/componet/timer";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -17,11 +18,31 @@ export default function Home() {
   const [randomWordList, setRandomWordList] = useState<string[]>([]);
   const [hintUsed, setHintUsed] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [timerDone, setTimerDone] = useState(false); 
+  const [timerDone, setTimerDone] = useState(false);
   const [timerProgress, setTimerProgress] = useState(0);
 
+  const router = useRouter();
+
+  // Check if user is logged in
   useEffect(() => {
-    const totalTime = 180; 
+    const userId = localStorage.getItem("userId");
+    if (!userId || userId === "undefined" || userId === "null") {
+      router.push("/login");
+    }
+  }, [router]);
+
+  // Debug localStorage contents
+  useEffect(() => {
+    console.log("Current localStorage userId:", localStorage.getItem("userId"));
+    console.log("All localStorage contents:");
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      console.log(key, ":", localStorage.getItem(key || ""));
+    }
+  }, []);
+
+  useEffect(() => {
+    const totalTime = 20; // this is in seconds for demo, change to 180 for 3 minutes / CHANGE THIS LATER
     let timeElapsed = 0;
     const interval = setInterval(() => {
       timeElapsed++;
@@ -35,12 +56,11 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Custom TimerProgress with callback
   function TimerProgressWithCallback({ onFinish }: { onFinish: () => void }) {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-      const totalTime = 180;
+      const totalTime = 20; // this is in seconds for demo, change to 180 for 3 minutes / CHANGE THIS LATER
       let timeElapsed = 0;
       const interval = setInterval(() => {
         timeElapsed++;
@@ -166,26 +186,37 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (timerDone) {
-      const userId = localStorage.getItem("userId");
-      console.log("Sending score update:", { userId, score });
-      if (userId) {
-        fetch(`http://localhost:8080/api/score`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId, score }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("Score updated:", data);
-          })
-          .catch((err) => console.error("Error updating score:", err));
-      }
-    }
-  }, [timerDone, score]);
+    if (!timerDone) return;
 
+    let userId = localStorage.getItem("userId");
+
+    if (!userId || userId === "undefined" || userId === "null") {
+      console.warn("No valid userId found, using test ID for development");
+      userId = "default_test_user_id";
+    }
+
+    const sendScore = async () => {
+      try {
+        console.log("Sending score update:", { userId, score });
+        const res = await fetch("http://localhost:8080/api/score", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId, score }),
+        });
+
+        if (!res.ok) {
+          throw new Error(`Failed with status ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log("Score updated:", data);
+      } catch (err) {
+        console.error("Error updating score:", err);
+      }
+    };
+
+    sendScore();
+  }, [timerDone, score]);
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 to-amber-200 relative">
       <div className="absolute top-6 left-6">
@@ -274,7 +305,15 @@ export default function Home() {
       )}
       {timerDone && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+          <div className="bg-white rounded-xl shadow-lg p-8 text-center relative">
+            {/* Close X Button */}
+            <button
+              onClick={() => setTimerDone(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl font-bold focus:outline-none"
+              aria-label="Close"
+            >
+              &times;
+            </button>
             <h2 className="text-2xl font-bold text-red-600 mb-2">
               Time&apos;s Up!
             </h2>
