@@ -8,7 +8,14 @@ export default function GaneModes() {
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-200 via-pink-200 to-blue-200 gap-8">
-        welcome to woordle {username}
+        <div className="flex items-center gap-2 mt-4">
+          <span className="text-2xl font-bold text-blue-700 drop-shadow">Welcome to Woordle</span>
+          {username && (
+            <span className="px-4 py-2 rounded-full bg-white/80 text-pink-600 font-extrabold text-xl shadow border border-pink-300 ml-2">
+              {username}
+            </span>
+          )}
+        </div>
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 drop-shadow-lg">
           Game Modes
         </h1>
