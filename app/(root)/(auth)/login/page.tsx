@@ -42,7 +42,7 @@ export default function SignIn() {
         setMessage(data.error || "Login failed");
       } else {
         setMessage("Signed in successfully!");
-        localStorage.setItem("userId", data.id || data._id); // Save user ID
+        localStorage.setItem("userId", data.userId);
         setUsername(data.username); // <-- Save globally in Zustand
         router.push("/homePage");
       }
