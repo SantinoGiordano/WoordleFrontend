@@ -43,7 +43,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const totalTime = 20; // this is in seconds for demo, change to 180 for 3 minutes / CHANGE THIS LATER
+    const totalTime = 180; // this is in seconds for demo, change to 180 for 3 minutes / CHANGE THIS LATER
     let timeElapsed = 0;
     const interval = setInterval(() => {
       timeElapsed++;
@@ -61,7 +61,7 @@ export default function Home() {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-      const totalTime = 20; // this is in seconds for demo, change to 180 for 3 minutes / CHANGE THIS LATER
+      const totalTime = 189; // this is in seconds for demo, change to 180 for 3 minutes / CHANGE THIS LATER
       let timeElapsed = 0;
       const interval = setInterval(() => {
         timeElapsed++;
@@ -79,8 +79,11 @@ export default function Home() {
       <div className="flex flex-col items-center gap-2 w-full max-w-xs">
         <div
           className="radial-progress"
-
-          style={{ "--value": progress } as React.CSSProperties & { "--value": number }}
+          style={
+            { "--value": progress } as React.CSSProperties & {
+              "--value": number;
+            }
+          }
           aria-valuenow={progress}
           role="progressbar"
         >
