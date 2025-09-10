@@ -2,6 +2,7 @@
 import { Animal } from "@/types/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { apiEndpoint } from "@/app/routes/route";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -105,7 +106,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/words")
+    fetch(apiEndpoint + "/api/words")
       .then((res) => res.json())
       .then((animalNames) => {
         setItems(animalNames);
@@ -132,7 +133,11 @@ export default function Home() {
               strokeWidth={2}
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
         </Link>
@@ -155,7 +160,9 @@ export default function Home() {
       </div>
 
       {/* Guess Inputs */}
-      <span className="mb-2 text-lg font-medium text-gray-700">Guess the Word</span>
+      <span className="mb-2 text-lg font-medium text-gray-700">
+        Guess the Word
+      </span>
       <div className="flex gap-3 mb-6">
         {guesses.map((guess, index) => (
           <input

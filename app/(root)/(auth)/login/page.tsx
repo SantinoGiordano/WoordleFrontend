@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store/userStore";
+import { apiEndpoint } from "@/app/routes/route";
 
 export default function SignIn() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function SignIn() {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/login", {
+      const res = await fetch(apiEndpoint+"/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

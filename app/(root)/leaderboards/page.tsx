@@ -1,5 +1,6 @@
 "use client";
 
+import { apiEndpoint } from "@/app/routes/route";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -13,7 +14,7 @@ export default function LeaderboardPage() {
   const [items, setItems] = useState<User[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/users")
+    fetch(apiEndpoint + "/api/users")
       .then((res) => res.json())
       .then((userInfo: User[]) => {
         const sorted = [...userInfo].sort((a, b) => b.score - a.score);

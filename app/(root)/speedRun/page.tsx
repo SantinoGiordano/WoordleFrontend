@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import TimerProgress from "@/app/componet/timer";
 import { useRouter } from "next/navigation";
+import { apiEndpoint } from "@/app/routes/route";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -170,7 +171,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/words")
+    fetch(apiEndpoint + "/api/words")
       .then((res) => res.json())
       .then((animalNames) => {
         setItems(animalNames);
@@ -198,7 +199,7 @@ export default function Home() {
     const sendScore = async () => {
       try {
         console.log("Sending score update:", { userId, score });
-        const res = await fetch("http://localhost:8080/api/score", {
+        const res = await fetch(apiEndpoint + "/api/score", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId, score }),
