@@ -2,7 +2,7 @@
 import { Animal } from "@/types/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { apiEndpoint } from "@/app/routes/route";
+import { apiEndpoint } from "@/routes/route";
 
 export default function Home() {
   const [word, setWord] = useState("");

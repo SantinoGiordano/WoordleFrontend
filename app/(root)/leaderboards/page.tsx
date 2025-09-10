@@ -1,6 +1,6 @@
 "use client";
 
-import { apiEndpoint } from "@/app/routes/route";
+import { apiEndpoint } from "@/routes/route";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store/userStore";
-import { apiEndpoint } from "@/app/routes/route";
+import { apiEndpoint } from "@/routes/route";
 
 export default function SignIn() {
   const router = useRouter();

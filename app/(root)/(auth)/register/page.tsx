@@ -1,5 +1,5 @@
 "use client";
-import { apiEndpoint } from "@/app/routes/route";
+import { apiEndpoint } from "@/routes/route";
 import { useState } from "react";
 
 export default function Register() {

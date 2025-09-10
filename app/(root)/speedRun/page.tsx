@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import TimerProgress from "@/app/componet/timer";
 import { useRouter } from "next/navigation";
-import { apiEndpoint } from "@/app/routes/route";
+import { apiEndpoint } from "@/routes/route";
 
 export default function Home() {
   const [word, setWord] = useState("");
