@@ -42,13 +42,13 @@ export default function GaneModes() {
           >
             Speed Run
           </Link>
-          <Link
+          {/* <Link
             data-tip="Learn the game with easy questions and helpful hints"
             href={"/tutorial"}
             className="tooltip tooltip-right bg-amber-100 text-center text-black text-2xl font-bold py-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-200"
           >
             Tutorial
-          </Link>
+          </Link> */}
           <Link
             data-tip="Check to see who's the best!"
             href={"/leaderboards"}
