@@ -14,7 +14,7 @@ export default function LeaderboardPage() {
   const [items, setItems] = useState<User[]>([]);
 
   useEffect(() => {
-    fetch(apiEndpoint + "/api/users")
+    fetch(`${apiEndpoint}/api/users`)
       .then((res) => res.json())
       .then((userInfo: User[]) => {
         const sorted = [...userInfo].sort((a, b) => b.score - a.score);

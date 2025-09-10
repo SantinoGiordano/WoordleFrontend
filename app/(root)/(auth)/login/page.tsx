@@ -23,7 +23,7 @@ export default function SignIn() {
     setMessage("");
 
     try {
-      const res = await fetch(apiEndpoint+"/api/login", {
+      const res = await fetch(`${apiEndpoint}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

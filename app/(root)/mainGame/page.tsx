@@ -101,7 +101,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetch(apiEndpoint + "/api/words")
+    fetch(`${apiEndpoint}/api/words`)
       .then((res) => res.json())
       .then((animalNames) => {
         setItems(animalNames);
