@@ -1,5 +1,6 @@
 "use client";
 import { apiEndpoint } from "@/routes/route";
+import router from "next/navigation";
 import { useState } from "react";
 
 export default function Register() {
@@ -35,9 +36,9 @@ export default function Register() {
         setMessage(data.error || "Registration failed");
       } else {
         setMessage("User registered successfully!");
-        // Clear form on success
         setUsername("");
         setPassword("");
+        router.push("/login"); 
       }
     } catch (error) {
       setMessage(
