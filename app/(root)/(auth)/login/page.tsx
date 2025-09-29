@@ -153,7 +153,7 @@ export default function SignIn() {
           </div>
         )}
 
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <div className="text-sm">
             <Link
               href="/forgot-password"
@@ -162,7 +162,7 @@ export default function SignIn() {
               Forgot your password?
             </Link>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex items-center justify-center gap-2">
           <span className="h-px bg-gray-300 w-full"></span>
