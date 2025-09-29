@@ -1,9 +1,10 @@
 "use client";
 import { apiEndpoint } from "@/routes/route";
-import router from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Register() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
