@@ -3,6 +3,7 @@ import { Animal } from "@/types/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { apiEndpoint } from "@/routes/route";
+import SkipButton from "@/app/componet/skipButton";
 
 export default function Home() {
   const [word, setWord] = useState("");
@@ -28,6 +29,20 @@ export default function Home() {
     }
   };
 
+  const handleSkip = () => {
+    setScore((prev) => Math.max(prev - 150, 0));
+
+    const currentIndex = randomWordList.indexOf(word);
+    const nextWord = randomWordList[(currentIndex + 1) % randomWordList.length];
+
+    setWord(nextWord);
+    setGuesses(["", "", "", "", ""]);
+    setHint("");
+    setValidationResults(Array(5).fill(false));
+    setHintUsed(false);
+    setGuessCounter(0);
+  };
+
   const handleSubmit = () => {
     setIsDisabled(true);
     setTimeout(() => setIsDisabled(false), 1000);
@@ -38,16 +53,15 @@ export default function Home() {
 
     setValidationResults(currentValidation);
 
-    setGuesses((prev) =>
-      prev.map((g, i) => (currentValidation[i] ? g : ""))
-    );
+    setGuesses((prev) => prev.map((g, i) => (currentValidation[i] ? g : "")));
 
     guessCounterFunc();
     incrementScore(currentValidation);
 
     if (currentValidation.every((isCorrect) => isCorrect)) {
       const currentIndex = randomWordList.indexOf(word);
-      const nextWord = randomWordList[(currentIndex + 1) % randomWordList.length];
+      const nextWord =
+        randomWordList[(currentIndex + 1) % randomWordList.length];
 
       setTimeout(() => {
         setWord(nextWord);
@@ -106,7 +120,9 @@ export default function Home() {
       .then((animalNames) => {
         setItems(animalNames);
         if (animalNames.length > 0) {
-          const names = animalNames.map((animal: Animal) => animal.name.toLowerCase());
+          const names = animalNames.map((animal: Animal) =>
+            animal.name.toLowerCase()
+          );
           const shuffledNames = shuffleArray(names);
           setRandomWordList(shuffledNames);
           setWord(shuffledNames[0]);
@@ -128,7 +144,11 @@ export default function Home() {
               strokeWidth={2}
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
         </Link>
@@ -151,7 +171,9 @@ export default function Home() {
       </div>
 
       {/* Guess Inputs */}
-      <span className="mb-2 text-lg font-medium text-gray-700">Guess the Word</span>
+      <span className="mb-2 text-lg font-medium text-gray-700">
+        Guess the Word
+      </span>
       <div className="flex gap-3 mb-6">
         {guesses.map((guess, i) => (
           <input
@@ -190,9 +212,9 @@ export default function Home() {
         >
           Reveal Hint
         </button>
+        <SkipButton onSkip={handleSkip} disabled={score >= 3000} />
       </div>
 
-      {/* Hint */}
       {hint && (
         <div className="mt-6 w-full max-w-sm bg-white border border-blue-200 rounded-lg shadow-md p-4 text-center">
           <p className="animate-pulse text-gray-700 font-medium">{hint}</p>
